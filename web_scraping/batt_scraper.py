@@ -17,7 +17,7 @@ s = Service(ChromeDriverManager().install()) # manages chromedriver
 driver = webdriver.Chrome(service=s, chrome_options=chrome_options)
 
 # tells bot to go to this link 
-driver.get("https://www.thebatt.com/search/?l=100&sort=relevance&f=html&t=article%2Cvideo%2Cyoutube%2Ccollection&app=editorial&nsa=eedition&q=")
+driver.get("https://www.thebatt.com/search/?l=25&sort=relevance&f=html&t=article%2Cvideo%2Cyoutube%2Ccollection&app=editorial&nsa=eedition&q=")
 
 # getting all articles by the class name - on the battalion, all articles on the search have the class name "tnt-headline"
 article_elems = driver.find_elements(By.CLASS_NAME, 'tnt-headline')
@@ -29,7 +29,7 @@ article_links = [art_elem.find_element(By.TAG_NAME, 'a').get_attribute('href') f
 if os.path.isfile("links.csv"): # check if the fils exists already
     df = pd.read_csv("links.csv")
 else:
-    df = pd.DataFrame(columns=["links"])
+    df = pd.DataFrame(columns=["links", "category", "summary"])
 
 # writer = csv.writer(article_linksCSV) # open CSV writer
 # writer.writerow(article_links) #writes separated by commas
@@ -45,12 +45,17 @@ else:
 # Fix issue with the multiple headers
 
 for link in article_links:
-    try: # using try except in case diver.get() doesn't work
+    try: # using try except in case driver.get() doesn't work
         if link not in df["links"].values: # check if link is already in the df
-            df.loc[len(df.index)] = [link]
+            
+            category = link.split("/")[3] # Always in the form of ['https', '', 'www.thebatt.com']
+            driver.get(link) # Go to link, slowest part of the code
+            firstParagraphText = driver.find_element(By.ID, 'article-body').find_element(By.TAG_NAME, 'p').text
+
+            df.loc[len(df.index)] = [link, category, firstParagraphText]
         # driver.get(link) # jump to the link
     except:
-        print("Unable to Find Link")
+        print("Unable to Find Link: " + link)
     
 #Close the CSV file
 # article_linksCSV.close()
