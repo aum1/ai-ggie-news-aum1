@@ -10,6 +10,7 @@ import os.path
 
 # need this or else will encounter error when trying to open multiple links
 chrome_options = Options()
+prefs = {"profile.managed_default_content_settings.images": 2, "javascript.enabled": False}
 chrome_options.add_argument("--ignore-certificate-errors-spki-list")
 chrome_options.add_argument('--ignore-ssl-errors')
 
@@ -50,10 +51,12 @@ for link in article_links:
             
             category = link.split("/")[3] # Always in the form of ['https', '', 'www.thebatt.com']
             driver.get(link) # Go to link, slowest part of the code
+            print("Got Link")
             firstParagraphText = driver.find_element(By.ID, 'article-body').find_element(By.TAG_NAME, 'p').text
+            print("Got text")
+            # firstParagraphText = driver.find_element(By.ID, 'article-body').send_keys(Keys.ESCAPE)
 
             df.loc[len(df.index)] = [link, category, firstParagraphText]
-        # driver.get(link) # jump to the link
     except:
         print("Unable to Find Link: " + link)
     
