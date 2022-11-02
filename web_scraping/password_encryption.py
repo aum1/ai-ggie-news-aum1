@@ -42,7 +42,7 @@ input: the input string encrypted
 return: string of input from the user 
 '''
 def decryptString(input):
-    i = 0
+    i = 0 # Set to 7 to get rid of the salt
     result = ""
     while (i < len(input)):
         if (input[i] == "["):
@@ -58,20 +58,23 @@ def decryptString(input):
             result += input[i+3]
 
         i += 1
-    return result
+    
+    # Return only from 7 onwards to get rid of the salt
+    return (result[7:]) 
 
 
 
 # Main Testing Code
 
-possiblePasswordInput = "0123456789abcdefghijklmnopqrstuvwxyzABEFGHIJKLMNOPQRSTUVWXYZ,./<" # All values that can be used
+possiblePasswordInput = "0123456789abcdefghijklmnopqrstuvwxyzABEFGHIJKLMNOPQRSTUVWXYZ,./<?!@#$%^&*()" # All values that can be used
 countCorrect = 0
 countIncorrect = 0
-countTotal = 1000
+countTotal = 100
+saltString = "HOWDY00"
 
 for i in range(countTotal):
-    password = (''.join(random.choice(possiblePasswordInput) for i in range(15)))
-    encrypted = encryptString(password)
+    password = (''.join(random.choice(possiblePasswordInput) for i in range(10)))
+    encrypted = encryptString(saltString) + encryptString(password)
     decrypted = decryptString(encrypted)
 
     try:
