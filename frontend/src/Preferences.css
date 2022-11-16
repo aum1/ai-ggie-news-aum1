@@ -1,0 +1,55 @@
+.MainFrame{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-top:60px;
+}
+.SportsSection{
+    flex-direction: row;
+}
+.Button_select{
+    width:15rem;
+    padding: 1rem 2rem;
+    margin: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #ffffff;
+    border:none;
+    border-radius: 30px;
+    outline: none;
+    cursor: pointer;
+    background:  var(--color-primary);
+    margin-bottom:10px;
+}
+.selectAll_Sport{
+    flex-direction: column;
+}
+#basketball_selected{
+    background-color: rgb(24, 177, 31);
+    color:black
+}
+#football_selected{
+    background-color: rgb(24, 177, 31);
+    color:black
+}
+#baseball_selected{
+    background-color: rgb(24, 177, 31);
+    color:black
+}
+#trackandfield_selected{
+    background-color: rgb(24, 177, 31);
+    color:black
+}
+#golf_selected{
+    background-color: rgb(24, 177, 31);
+    color:black
+}
+#swim_selected{
+    background-color: rgb(24, 177, 31);
+    color:black
+}
+#all_selected{
+    background-color: rgb(51, 108, 222);
+    color: black;
+}
+
